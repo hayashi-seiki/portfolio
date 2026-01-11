@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap'); /* フォント読み込み */
 
 :root {
-    --primary-color: #000;
+    --primary-color: #1c1c1c;
     --accent-color: #d14b73;
     --bg-light: #f9f9f9;
     --bg-contact: #f7f5f0;
@@ -74,7 +74,7 @@ header .container {
     font-size: 12rem; /* サイズ大 */
     line-height: 0.9;
     text-transform: uppercase;
-    color: #000;
+    color: #1c1c1c;
     letter-spacing: 1px;
 }
 .logo-area span { display: block; } /* 改行 */
@@ -91,7 +91,7 @@ header nav ul a {
     font-family: 'Oswald', sans-serif; /* コンデンス書体 */
     font-size: 2.8rem;
     font-weight: 500;
-    color: #000;
+    color: #1c1c1c;
     text-transform: uppercase;
     letter-spacing: 1px;
     position: relative;
@@ -109,7 +109,7 @@ header nav ul a::after {
     left: 0;
     width: 0;
     height: 4px;
-    background-color: #000;
+    background-color: #1c1c1c;
     transition: width 0.3s ease;
 }
 
@@ -135,7 +135,7 @@ header nav ul a:hover::after {
 .hamburger-menu span {
     width: 100%;
     height: 3px;
-    background-color: #000;
+    background-color: #1c1c1c;
     border-radius: 3px;
     transition: all 0.3s ease;
 }
@@ -246,7 +246,7 @@ header nav ul a:hover::after {
     font-size: 1.0rem;
     font-weight: bold;
     text-decoration: none;
-    color: #000; /* 通常時の色 */
+    color: #1c1c1c; /* 通常時の色 */
 }
 
 .page-navigation a:hover {
@@ -307,7 +307,7 @@ header nav ul a:hover::after {
         left: 0;
         width: 0;
         height: 3px;
-        background-color: #000;
+        background-color: #1c1c1c;
         transition: width 0.3s ease;
     }
 
@@ -358,7 +358,7 @@ header nav ul a:hover::after {
     background: #eee;
     height: 100%; /* グリッドセルいっぱいに広げる */
     min-height: 250px; /* 最低の高さ */
-    border: 1px solid #000;
+    border: 1px solid #1c1c1c;
 }
 
 .work-item a {
@@ -595,6 +595,62 @@ header nav ul a:hover::after {
     align-items: start;
 }
 
+/* 詳細ページ2パターン：project-metaとproject-descriptionの下に大きな画像を配置 */
+.hero-detail {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+}
+
+.hero-detail > .hero-image {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.hero-detail > .hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 947px以上で2カラムレイアウト */
+@media (min-width: 947px) {
+    .hero-detail {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: auto;
+    }
+    
+    /* 1行目：project-infoとproject-descriptionを配置 */
+    .hero-detail > .detail-left.project-info-section {
+        grid-row: 1;
+        grid-column: 1;
+    }
+    
+    .hero-detail > .detail-right.project-description-section {
+        grid-row: 1;
+        grid-column: 2;
+    }
+    
+    /* 2行目：hero-imageを全幅で配置（project-metaとproject-descriptionの下） */
+    .hero-detail > .hero-image {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+    
+    /* 3行目：main-imageとsub-imagesを配置 */
+    .hero-detail > .detail-left.image-section {
+        grid-row: 3;
+        grid-column: 1;
+    }
+    
+    .hero-detail > .detail-right.image-section {
+        grid-row: 3;
+        grid-column: 2;
+    }
+}
+
 /* 左側カラム */
 .detail-left {
     display: flex;
@@ -612,7 +668,7 @@ header nav ul a:hover::after {
 .project-title {
     font-size: 2.4rem;
     font-weight: bold;
-    color: #000;
+    color: #1c1c1c;
     margin: 0;
     line-height: 1.3;
 }
@@ -659,12 +715,16 @@ header nav ul a:hover::after {
 .detail-left .main-image {
     width: 100%;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .detail-left .main-image img {
     width: 100%;
     height: auto;
     display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* 右側カラム */
@@ -733,6 +793,7 @@ header nav ul a:hover::after {
     width: 100%;
     height: auto;
     display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -752,7 +813,7 @@ header nav ul a:hover::after {
 
 .nav-prev,
 .nav-next {
-    color: #000;
+    color: #1c1c1c;
     text-decoration: none;
     font-size: 1rem;
     transition: opacity 0.3s;
@@ -770,17 +831,17 @@ header nav ul a:hover::after {
 .btn-top {
     display: inline-block;
     padding: 15px 80px;
-    border: 1px solid #000;
+    border: 1px solid #1c1c1c;
     border-radius: 4px;
     font-weight: bold;
-    color: #000;
+    color: #1c1c1c;
     text-decoration: none;
     transition: all 0.3s;
     background-color: #fff;
 }
 
 .btn-top:hover {
-    background-color: #000;
+    background-color: #1c1c1c;
     color: #fff;
 }
 
@@ -790,6 +851,15 @@ header nav ul a:hover::after {
         grid-template-columns: 1fr;
         gap: 40px;
         padding: 40px 6%;
+    }
+    
+    .hero-detail {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .hero-detail > .hero-image {
+        grid-column: 1 / -1;
     }
 
     .project-title {
