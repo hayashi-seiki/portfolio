@@ -9,8 +9,8 @@ const enableBodyScroll = () => {
 };
 
 // ハンバーガーメニューの開閉制御（トップページ用）
-const hamburgerMenu = document.querySelector('header .hamburger-menu');
-const nav = document.querySelector('header nav');
+const hamburgerMenu = document.querySelector('header:not(.page-header) .hamburger-menu');
+const nav = document.querySelector('header:not(.page-header) nav');
 
 if (hamburgerMenu && nav) {
     hamburgerMenu.addEventListener('click', () => {
@@ -25,7 +25,7 @@ if (hamburgerMenu && nav) {
     });
 
     // メニューリンクをクリックしたときにメニューを閉じる
-    const navLinks = document.querySelectorAll('header nav ul a');
+    const navLinks = document.querySelectorAll('header:not(.page-header) nav ul a');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             hamburgerMenu.classList.remove('active');
