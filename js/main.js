@@ -1,11 +1,27 @@
-// ハンバーガーメニューの開閉制御
-const hamburgerMenu = document.querySelector('.hamburger-menu');
+// 背景スクロールを無効化する関数
+const disableBodyScroll = () => {
+    document.body.style.overflow = 'hidden';
+};
+
+// 背景スクロールを有効化する関数
+const enableBodyScroll = () => {
+    document.body.style.overflow = '';
+};
+
+// ハンバーガーメニューの開閉制御（トップページ用）
+const hamburgerMenu = document.querySelector('header .hamburger-menu');
 const nav = document.querySelector('header nav');
 
 if (hamburgerMenu && nav) {
     hamburgerMenu.addEventListener('click', () => {
-        hamburgerMenu.classList.toggle('active');
+        const isActive = hamburgerMenu.classList.toggle('active');
         nav.classList.toggle('active');
+        
+        if (isActive) {
+            disableBodyScroll();
+        } else {
+            enableBodyScroll();
+        }
     });
 
     // メニューリンクをクリックしたときにメニューを閉じる
@@ -14,6 +30,34 @@ if (hamburgerMenu && nav) {
         link.addEventListener('click', () => {
             hamburgerMenu.classList.remove('active');
             nav.classList.remove('active');
+            enableBodyScroll();
+        });
+    });
+}
+
+// ページナビゲーションのハンバーガーメニューの開閉制御（詳細ページ用）
+const pageHamburgerMenu = document.querySelector('.page-header .hamburger-menu');
+const pageNav = document.querySelector('.page-navigation');
+
+if (pageHamburgerMenu && pageNav) {
+    pageHamburgerMenu.addEventListener('click', () => {
+        const isActive = pageHamburgerMenu.classList.toggle('active');
+        pageNav.classList.toggle('active');
+        
+        if (isActive) {
+            disableBodyScroll();
+        } else {
+            enableBodyScroll();
+        }
+    });
+
+    // メニューリンクをクリックしたときにメニューを閉じる
+    const pageNavLinks = document.querySelectorAll('.page-navigation ul a');
+    pageNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            pageHamburgerMenu.classList.remove('active');
+            pageNav.classList.remove('active');
+            enableBodyScroll();
         });
     });
 }
