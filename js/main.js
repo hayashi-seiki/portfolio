@@ -177,22 +177,70 @@ const alignImagePositions = () => {
     }
 };
 
+// 画像の読み込み完了を待つ関数
+const waitForImages = (callback) => {
+    const detailContainer = document.querySelector('.detail-container');
+    if (!detailContainer) {
+        callback();
+        return;
+    }
+    
+    const images = detailContainer.querySelectorAll('img');
+    if (images.length === 0) {
+        callback();
+        return;
+    }
+    
+    let loadedCount = 0;
+    const totalImages = images.length;
+    
+    const checkComplete = () => {
+        loadedCount++;
+        if (loadedCount === totalImages) {
+            // すべての画像が読み込まれた後、少し遅延させてレンダリングを待つ
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    callback();
+                });
+            });
+        }
+    };
+    
+    images.forEach(img => {
+        if (img.complete) {
+            checkComplete();
+        } else {
+            img.addEventListener('load', checkComplete, { once: true });
+            img.addEventListener('error', checkComplete, { once: true });
+        }
+    });
+};
+
 // ページ読み込み時とリサイズ時に実行
 if (document.querySelector('.detail-container')) {
+    // 画像の読み込み完了を待ってから位置調整を実行
+    const initAlignImagePositions = () => {
+        waitForImages(() => {
+            alignImagePositions();
+        });
+    };
+    
     // DOMContentLoadedで実行
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(alignImagePositions, 100); // 少し遅延させて確実にレンダリング後に実行
-        });
+        document.addEventListener('DOMContentLoaded', initAlignImagePositions);
     } else {
-        setTimeout(alignImagePositions, 100);
+        initAlignImagePositions();
     }
     
     // リサイズ時に実行（デバウンス処理）
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(alignImagePositions, 100);
+        resizeTimer = setTimeout(() => {
+            waitForImages(() => {
+                alignImagePositions();
+            });
+        }, 150);
     });
 }
 
