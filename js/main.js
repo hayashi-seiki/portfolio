@@ -1,11 +1,34 @@
+// スクロールバーの幅を取得する関数
+const getScrollbarWidth = () => {
+    // 一時的なdivを作成してスクロールバーの幅を測定
+    const outer = document.createElement('div');
+    outer.style.visibility = 'hidden';
+    outer.style.overflow = 'scroll';
+    outer.style.msOverflowStyle = 'scrollbar'; // IE用
+    document.body.appendChild(outer);
+    
+    const inner = document.createElement('div');
+    outer.appendChild(inner);
+    
+    const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+    
+    outer.parentNode.removeChild(outer);
+    return scrollbarWidth;
+};
+
 // 背景スクロールを無効化する関数
 const disableBodyScroll = () => {
+    // スクロールバーの幅を取得
+    const scrollbarWidth = getScrollbarWidth();
+    // スクロールバーの幅分のパディングを追加してレイアウトのずれを防ぐ
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
     document.body.style.overflow = 'hidden';
 };
 
 // 背景スクロールを有効化する関数
 const enableBodyScroll = () => {
     document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
 };
 
 // ハンバーガーメニューの開閉制御（トップページ用）
