@@ -726,6 +726,7 @@ header nav ul a::after {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    contain: layout;
 }
 
 .detail-left .main-image img {
@@ -783,10 +784,19 @@ header nav ul a::after {
     /* JavaScriptで位置を調整するための準備 */
     .project-description.desktop-only {
         margin-top: 0;
+        /* レイアウトシフトを防ぐ */
+        contain: layout;
     }
     
     .detail-right .sub-images {
         margin-top: 0;
+    }
+    
+    /* レイアウトシフトを防ぐための最適化 */
+    .detail-left .main-image,
+    .detail-right .sub-images {
+        /* 位置調整時のパフォーマンス向上 */
+        transform: translateZ(0);
     }
 }
 
@@ -795,6 +805,7 @@ header nav ul a::after {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    contain: layout;
 }
 
 .detail-right .sub-images img {
