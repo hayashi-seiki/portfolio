@@ -31,59 +31,74 @@ const enableBodyScroll = () => {
     document.body.style.paddingRight = '';
 };
 
-// ハンバーガーメニューの開閉制御（トップページ用）
-const hamburgerMenu = document.querySelector('header:not(.page-header) .hamburger-menu');
-const nav = document.querySelector('header:not(.page-header) nav');
+// ハンバーガーメニューの開閉制御（共通）
+const setupHamburgerMenu = ({ buttonSelector, navSelector, linkSelector }) => {
+    const button = document.querySelector(buttonSelector);
+    const navEl = document.querySelector(navSelector);
+    if (!button || !navEl) return;
 
-if (hamburgerMenu && nav) {
-    hamburgerMenu.addEventListener('click', () => {
-        const isActive = hamburgerMenu.classList.toggle('active');
-        nav.classList.toggle('active');
-        
+    const setExpanded = (expanded) => {
+        // aria-expanded はHTML側で付与されている場合のみ更新する
+        if (button.hasAttribute('aria-expanded')) {
+            button.setAttribute('aria-expanded', String(expanded));
+        }
+    };
+
+    const openMenu = () => {
+        button.classList.add('active');
+        navEl.classList.add('active');
+        setExpanded(true);
+        disableBodyScroll();
+    };
+
+    const closeMenu = () => {
+        button.classList.remove('active');
+        navEl.classList.remove('active');
+        setExpanded(false);
+        enableBodyScroll();
+    };
+
+    const toggleMenu = () => {
+        const isActive = button.classList.toggle('active');
+        navEl.classList.toggle('active');
+        setExpanded(isActive);
+
         if (isActive) {
             disableBodyScroll();
         } else {
             enableBodyScroll();
         }
-    });
+    };
+
+    button.addEventListener('click', toggleMenu);
 
     // メニューリンクをクリックしたときにメニューを閉じる
-    const navLinks = document.querySelectorAll('header:not(.page-header) nav ul a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburgerMenu.classList.remove('active');
-            nav.classList.remove('active');
-            enableBodyScroll();
-        });
+    const links = document.querySelectorAll(linkSelector);
+    links.forEach((link) => {
+        link.addEventListener('click', closeMenu);
     });
-}
 
-// ページナビゲーションのハンバーガーメニューの開閉制御（詳細ページ用）
-const pageHamburgerMenu = document.querySelector('.page-header .hamburger-menu');
-const pageNav = document.querySelector('.page-navigation');
-
-if (pageHamburgerMenu && pageNav) {
-    pageHamburgerMenu.addEventListener('click', () => {
-        const isActive = pageHamburgerMenu.classList.toggle('active');
-        pageNav.classList.toggle('active');
-        
-        if (isActive) {
-            disableBodyScroll();
-        } else {
-            enableBodyScroll();
+    // ESCで閉じる（任意・UX向上）
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && (button.classList.contains('active') || navEl.classList.contains('active'))) {
+            closeMenu();
         }
     });
+};
 
-    // メニューリンクをクリックしたときにメニューを閉じる
-    const pageNavLinks = document.querySelectorAll('.page-navigation ul a');
-    pageNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            pageHamburgerMenu.classList.remove('active');
-            pageNav.classList.remove('active');
-            enableBodyScroll();
-        });
-    });
-}
+// トップページ用
+setupHamburgerMenu({
+    buttonSelector: 'header:not(.page-header) .hamburger-menu',
+    navSelector: 'header:not(.page-header) nav',
+    linkSelector: 'header:not(.page-header) nav ul a',
+});
+
+// 詳細ページ用
+setupHamburgerMenu({
+    buttonSelector: '.page-header .hamburger-menu',
+    navSelector: '.page-navigation',
+    linkSelector: '.page-navigation ul a',
+});
 
 /**
  * IntersectionObserver を使ったフェードイン処理を共通化
@@ -131,117 +146,4 @@ addFadeInOnIntersect([
 
 // profile-text内のpタグの下からフェードインアニメーション
 addFadeInOnIntersect(document.querySelector('.profile-text p'));
-
-// work-detail.html: 947px以上でmain-imageとsub-imagesの1枚目の開始位置を揃える
-const alignImagePositions = () => {
-    const detailContainer = document.querySelector('.detail-container');
-    const projectInfo = document.querySelector('.detail-left .project-info');
-    const projectDescription = document.querySelector('.project-description.desktop-only');
-    const mainImage = document.querySelector('.detail-left .main-image');
-    const subImages = document.querySelector('.detail-right .sub-images');
-    
-    if (!detailContainer || !projectInfo || !projectDescription || !mainImage || !subImages) {
-        return;
-    }
-    
-    if (window.innerWidth >= 947) {
-        // リセット
-        projectDescription.style.marginTop = '';
-        subImages.style.marginTop = '';
-        
-        // コンテナの位置を基準に取得
-        const containerRect = detailContainer.getBoundingClientRect();
-        const mainImageRect = mainImage.getBoundingClientRect();
-        const subImagesRect = subImages.getBoundingClientRect();
-        
-        // コンテナを基準にした相対位置を計算
-        const mainImageTopRelative = mainImageRect.top - containerRect.top;
-        const subImagesTopRelative = subImagesRect.top - containerRect.top;
-        
-        // 位置の差を計算
-        const difference = mainImageTopRelative - subImagesTopRelative;
-        
-        if (Math.abs(difference) > 1) { // 1px以上の差がある場合のみ調整
-            if (difference > 0) {
-                // main-imageの方が下にある場合、sub-imagesを下に移動
-                subImages.style.marginTop = `${difference}px`;
-            } else {
-                // sub-imagesの方が下にある場合、project-descriptionを下に移動
-                projectDescription.style.marginTop = `${Math.abs(difference)}px`;
-            }
-        }
-    } else {
-        // 947px未満の場合はリセット
-        projectDescription.style.marginTop = '';
-        subImages.style.marginTop = '';
-    }
-};
-
-// 画像の読み込み完了を待つ関数
-const waitForImages = (callback) => {
-    const detailContainer = document.querySelector('.detail-container');
-    if (!detailContainer) {
-        callback();
-        return;
-    }
-    
-    const images = detailContainer.querySelectorAll('img');
-    if (images.length === 0) {
-        callback();
-        return;
-    }
-    
-    let loadedCount = 0;
-    const totalImages = images.length;
-    
-    const checkComplete = () => {
-        loadedCount++;
-        if (loadedCount === totalImages) {
-            // すべての画像が読み込まれた後、少し遅延させてレンダリングを待つ
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    callback();
-                });
-            });
-        }
-    };
-    
-    images.forEach(img => {
-        if (img.complete) {
-            checkComplete();
-        } else {
-            img.addEventListener('load', checkComplete, { once: true });
-            img.addEventListener('error', checkComplete, { once: true });
-        }
-    });
-};
-
-// ページ読み込み時とリサイズ時に実行
-if (document.querySelector('.detail-container')) {
-    // 画像の読み込み完了を待ってから位置調整を実行
-    const initAlignImagePositions = () => {
-        waitForImages(() => {
-            alignImagePositions();
-        });
-    };
-    
-    // DOMContentLoadedで実行
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initAlignImagePositions);
-    } else {
-        initAlignImagePositions();
-    }
-    
-    // リサイズ時に実行（デバウンス処理）
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            waitForImages(() => {
-                alignImagePositions();
-            });
-        }, 150);
-    });
-}
-
 
