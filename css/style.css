@@ -48,15 +48,13 @@ img { max-width: 100%; display: block; height: auto; }
 }
 
 /* ABOUTとCONTACTのsection-titleのアニメーション */
-#profile .section-title,
-#contact .section-title {
+#profile .section-title {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-#profile .section-title.animate,
-#contact .section-title.animate {
+#profile .section-title.animate {
     opacity: 1;
     transform: translateY(0);
 }
@@ -527,85 +525,6 @@ header nav ul a::after {
     transform: translateY(0);
 }
 
-/* --- Contact Section--- */
-#contact { background-color: var(--bg-contact); }
-.contact-form-container {
-    max-width: 960px;
-    margin: 0 auto;
-}
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 25px;
-    /* border-bottom: 1px solid rgba(0,0,0,0.05); */
-}
-.form-row:last-of-type { border-bottom: none; }
-.form-label {
-    flex: 0 0 100%;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-.form-label .required { color: var(--accent-color); margin-left: 5px; }
-.form-input { flex: 1 1 100%; }
-@media (min-width: 768px) {
-    .form-label { flex: 0 0 240px; margin-bottom: 0; }
-    .form-input { flex: 1; }
-}
-.form-input input, .form-input textarea {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 4px;
-    background: #fff;
-    font-size: 1rem;
-    color: var(--text-color);
-    font-family: inherit;
-}
-.form-input input:focus, .form-input textarea:focus { outline: 2px solid var(--accent-color); }
-
-.submit-container { text-align: center; margin-top: 40px; }
-.btn-submit, .btn-back {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 60px;
-    background-color: transparent;
-    color: var(--text-color);
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s;
-    min-width: 200px;
-    text-decoration: none; /* リンクの場合 */
-}
-.btn-submit:hover, .btn-back:hover {
-    background-color: var(--primary-color);
-    color: #fff;
-    border-color: var(--primary-color);
-}
-.btn-submit::after {
-    content: '→';
-    margin-left: 10px;
-    font-family: monospace;
-}
-.btn-back::before {
-    content: '←';
-    margin-right: 10px;
-    font-family: monospace;
-}
-
-/* Confirm & Complete */
-.contact-confirm-container { max-width: 1100px; }
-.confirm-data { background: #fff; padding: 40px; border-radius: 8px; margin-bottom: 40px; }
-.confirm-row { display: flex; border-bottom: 1px solid #eee; padding: 20px 0; }
-.confirm-label { font-weight: bold; width: 200px; }
-.confirm-value { flex: 1; white-space: pre-wrap; }
-.button-group { display: flex; justify-content: center; gap: 20px; }
-.complete-message { text-align: center; padding: 100px 0; }
-
 /* --- Works Detail Page --- */
 .detail-container {
     max-width: 1200px;
@@ -980,3 +899,76 @@ header nav ul a::after {
 
 /* Footer */
 footer { text-align: center; padding: 50px; background: #fff; color: #888; font-size: 0.8rem; }
+
+/* --- Works Detail Layout Refactor (Grid only, no JS) --- */
+.detail-container {
+    /* override previous 2-column default */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "info"
+        "desc"
+        "main"
+        "sub";
+    gap: 40px;
+    align-items: start;
+}
+
+/* hero-detail only: insert hero image between description and images */
+.detail-container.hero-detail {
+    grid-template-areas:
+        "info"
+        "desc"
+        "hero"
+        "main"
+        "sub";
+}
+
+/* Grid areas */
+.detail-container .project-info { grid-area: info; }
+.detail-container .project-description { grid-area: desc; }
+.detail-container .hero-image { grid-area: hero; }
+.detail-container .main-image { grid-area: main; }
+.detail-container .sub-images { grid-area: sub; }
+
+/* Desktop: 2 columns, align main/sub starts naturally */
+@media (min-width: 947px) {
+    .detail-container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "info desc"
+            "main sub";
+        gap: 60px;
+    }
+
+    .detail-container.hero-detail {
+        grid-template-areas:
+            "info desc"
+            "hero hero"
+            "main sub";
+    }
+}
+
+/* Images (direct children) */
+.detail-container .main-image,
+.detail-container .sub-images,
+.detail-container .hero-image {
+    width: 100%;
+    margin: 0;
+}
+
+.detail-container .main-image img,
+.detail-container .sub-images img,
+.detail-container .hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.detail-container .main-image,
+.detail-container .sub-images {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
