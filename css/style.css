@@ -69,38 +69,38 @@ img { max-width: 100%; display: block; height: auto; }
 /* --- Header --- */
 header {
     background: #fff;
-    padding: 60px 0; /* 余白を広めに */
+    padding: 60px 0;
     border-bottom: none;
 }
 
 header .container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end; /* 下揃えにする */
+    align-items: flex-end;
 }
 
 /* 左側：ロゴエリア */
 .logo-area {
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
-    font-size: 12rem; /* サイズ大 */
+    font-size: 12rem;
     line-height: 0.9;
     text-transform: uppercase;
     color: #1c1c1c;
     letter-spacing: 1px;
 }
-.logo-area span { display: block; } /* 改行 */
+.logo-area span { display: block; } 
 
 /* 右側：ナビゲーション */
 header nav ul {
     display: flex;
-    flex-direction: column; /* 縦並び */
+    flex-direction: column;
     gap: 15px;
     text-align: right;
 }
 
 header nav ul a {
-    font-family: 'Oswald', sans-serif; /* コンデンス書体 */
+    font-family: 'Oswald', sans-serif;
     font-size: 2.8rem;
     font-weight: 500;
     color: #1c1c1c;
@@ -121,7 +121,7 @@ header nav ul a::after {
     transition: width 0.3s ease;
 }
 
-/* パソコンのときだけホバーアクションを発動 */
+/* パソコンのときだけホバーアクション */
 @media (hover: hover) {
     header nav ul a:hover {
         opacity: 1;
@@ -133,7 +133,7 @@ header nav ul a::after {
 }
 
 
-/* ハンバーガーメニューボタン */
+/* ハンバーガーメニュー */
 .hamburger-menu {
     display: none;
     flex-direction: column;
@@ -221,7 +221,7 @@ header nav ul a::after {
 }
 
 
-/* 詳細ページ・確認画面・完了画面のヘッダー全体レイアウト */
+/* 詳細ページのヘッダー全体レイアウト */
 .page-header {
     max-width: 1200px;
     margin: 0 auto;
@@ -233,26 +233,26 @@ header nav ul a::after {
     position: relative;
 }
 
-/* h1のスタイル変更 */
+
 .page-logo {
     font-size: 1.8rem;
-    font-family: 'Oswald', sans-serif; /* コンデンス書体 */
-    color: var(--primary-color, #333); /* 変数がない場合は#333を使用 */
+    font-family: 'Oswald', sans-serif;
+    color: var(--primary-color, #333);
     margin: 0;
 }
 
 .page-logo a {
     text-decoration: none;
-    color: inherit; /* 親の色を引き継ぐ */
+    color: inherit;
 }
 
 
-/* ナビゲーションのスタイル変更 */
+/* ナビゲーションのスタイル */
 .page-navigation ul {
-    display: flex; /* 横並びにする */
+    display: flex;
     flex-direction: row;
-    gap: 30px; /* メニュー間の間隔 */
-    list-style: none; /* リストの・を消す */
+    gap: 30px;
+    list-style: none;
     margin: 0;
     padding: 0;
 }
@@ -261,17 +261,17 @@ header nav ul a::after {
     font-size: 1.0rem;
     font-weight: bold;
     text-decoration: none;
-    color: #1c1c1c; /* 通常時の色 */
+    color: #1c1c1c;
 }
 
-/* パソコンのときだけホバーアクションを発動 */
+/* パソコンのときだけホバーアクションを */
 @media (hover: hover) {
     .page-navigation a:hover {
-        color: var(--primary-color, #333); /* ホバー時の色 */
+        color: var(--primary-color, #333);
     }
 }
 
-/* 詳細ページ等：946px以下でロゴ左＋ハンバーガーメニュー */
+/* 詳細ページ：946px以下でロゴ左＋ハンバーガーメニュー */
 @media (max-width: 946px) {
     .page-header {
         padding: 20px 6%;
@@ -335,7 +335,7 @@ header nav ul a::after {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
-    grid-auto-flow: dense; /* 空いたスペースを詰める */
+    grid-auto-flow: dense;
 }
 
 /* PC: 4列グリッド */
@@ -403,7 +403,7 @@ header nav ul a::after {
     padding: 20px;
 }
 
-/* パソコンのときだけホバーアクションを発動 */
+/* パソコンのときだけホバーアクション */
 @media (hover: hover) {
     .work-item:hover img { 
         transform: scale(1.05);
@@ -443,7 +443,7 @@ header nav ul a::after {
 .profile-image img {
     width: 250px; height: 250px;
     border-radius: 50%; object-fit: cover;
-    filter: grayscale(100%); /* モノクロにする */
+    filter: grayscale(100%);
 }
 
 /* profile-imageの左からフェードインアニメーション */
@@ -490,10 +490,10 @@ header nav ul a::after {
 }
 
 .tools-container {
-    background-color: #EAEAEA; /* グレーの背景色 */
+    background-color: #EAEAEA;
     margin-top: 24px;
-    padding: 16px 16px; /* パディングを調整 */
-    border-radius: 8px; /* 角丸 */
+    padding: 16px 16px;
+    border-radius: 8px;
 }
 
 /* tools-container内のh4とpタグの下からフェードインアニメーション */
@@ -536,7 +536,7 @@ header nav ul a::after {
     align-items: start;
 }
 
-/* 詳細ページ2パターン：project-metaとproject-descriptionの下に大きな画像を配置 */
+/* 詳細ページ2パターン：project-metaとproject-descriptionの下にhero画像を配置 */
 .hero-detail {
     display: grid;
     grid-template-columns: 1fr;
