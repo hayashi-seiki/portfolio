@@ -31,7 +31,7 @@ const enableBodyScroll = () => {
     document.body.style.paddingRight = '';
 };
 
-// ハンバーガーメニューの開閉制御（共通）
+// ハンバーガーメニューの開閉制御
 const setupHamburgerMenu = ({ buttonSelector, navSelector, linkSelector }) => {
     const button = document.querySelector(buttonSelector);
     const navEl = document.querySelector(navSelector);
@@ -78,7 +78,7 @@ const setupHamburgerMenu = ({ buttonSelector, navSelector, linkSelector }) => {
         link.addEventListener('click', closeMenu);
     });
 
-    // ESCで閉じる（任意・UX向上）
+    // ESCで閉じる
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && (button.classList.contains('active') || navEl.classList.contains('active'))) {
             closeMenu();
@@ -102,7 +102,7 @@ setupHamburgerMenu({
 
 /**
  * IntersectionObserver を使ったフェードイン処理を共通化
- * @param {Element|NodeListOf<Element>|Element[]} targets - 監視対象要素
+ * @param {Element|NodeListOf<Element>|Element[]} targets
  */
 const addFadeInOnIntersect = (targets) => {
     const elements = targets instanceof NodeList || Array.isArray(targets)
