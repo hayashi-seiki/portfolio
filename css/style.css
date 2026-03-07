@@ -2,16 +2,9 @@
 
 @font-face {
     font-family: "Oswald";
-    src: url("../fonts/oswald-500.woff2") format("woff2");
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
-    font-family: "Oswald";
-    src: url("../fonts/oswald-700.woff2") format("woff2");
-    font-weight: 700;
+    src:
+      url("../fonts/Oswald-VariableFont_wght.woff2") format("woff2");
+    font-weight: 500 700;
     font-style: normal;
     font-display: swap;
   }
@@ -36,14 +29,27 @@
   
   body{
     font-family:
-      "Helvetica Neue",
-      Arial,
-      sans-serif;
-    color:var(--text-color);
-    line-height:1.8;
-    background:#fff;
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   }
   
+/* -----------------------------
+   TITLES
+----------------------------- */
+
+.section-title,
+.hero-title,
+.logo {
+
+  font-family:
+    "Oswald",
+    sans-serif;
+
+}
+
   a{
     text-decoration:none;
     color:inherit;
