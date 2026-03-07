@@ -3,7 +3,7 @@
 @font-face {
     font-family: "Oswald";
     src:
-      url("../fonts/Oswald-VariableFont_wght.woff2") format("woff2");
+      url("/portfolio/fonts/oswald-500.woff2") format("woff2");
     font-weight: 500 700;
     font-style: normal;
     font-display: swap;
@@ -35,20 +35,6 @@
     Arial,
     sans-serif;
   }
-  
-/* -----------------------------
-   TITLES
------------------------------ */
-
-.section-title,
-.hero-title,
-.logo {
-
-  font-family:
-    "Oswald",
-    sans-serif;
-
-}
 
   a{
     text-decoration:none;
