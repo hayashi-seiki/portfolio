@@ -1,5 +1,5 @@
 /* --- Base Styles --- */
-/* Oswald フォント（セルフホスト方式でunload非推奨警告を回避） */
+
 @font-face {
     font-family: 'Oswald';
     font-style: normal;
