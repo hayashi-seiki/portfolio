@@ -147,3 +147,78 @@ addFadeInOnIntersect([
 // profile-text内のpタグの下からフェードインアニメーション
 addFadeInOnIntersect(document.querySelector('.profile-text p'));
 
+/* --- Contact Form Validation & Submission --- */
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('contactForm');
+    
+    if (form) {
+        // Enterキーによる誤送信の防止 (textarea以外)
+        form.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            let firstErrorEl = null;
+
+            // エラー状態のリセット
+            form.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('has-error');
+            });
+
+            // バリデーションチェック関数
+            const setError = (element) => {
+                isValid = false;
+                element.closest('.form-group').classList.add('has-error');
+                if (!firstErrorEl) firstErrorEl = element.closest('.form-group');
+            };
+
+            // 必須テキスト/メール/テキストエリアのチェック
+            const requiredInputs = form.querySelectorAll('input[required], textarea[required]');
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    setError(input);
+                } else if (input.type === 'email') {
+                    // 簡単なメールアドレス形式チェック
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailPattern.test(input.value)) {
+                        setError(input);
+                    }
+                }
+            });
+
+            // ご相談項目（チェックボックス）の必須チェック
+            const checkboxes = form.querySelectorAll('input[name="entry.1222402986"]');
+            const isChecked = Array.from(checkboxes).some(cb => cb.checked);
+            if (!isChecked && checkboxes.length > 0) {
+                setError(checkboxes[0]);
+            }
+
+            // エラーがあれば最初の項目へスクロール
+            if (!isValid) {
+                const headerOffset = 100;
+                const elementPosition = firstErrorEl.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+                return;
+            }
+
+            // 送信処理とアニメーション
+            const submitBtn = form.querySelector('.btn-submit');
+            submitBtn.classList.add('is-loading');
+            submitBtn.disabled = true; // 二重送信防止
+
+            // Googleフォームの隠しiframeのフラグを立てて送信
+            submitted = true;
+            form.submit();
+        });
+    }
+});
