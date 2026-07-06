@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // ご相談項目（チェックボックス）の必須チェック
-            const checkboxes = form.querySelectorAll('input[name="entry.1222402986"]');
+            const checkboxes = form.querySelectorAll('input[name="entry.784091772"]');
             if (checkboxes.length > 0) {
                 const isChecked = Array.from(checkboxes).some(cb => cb.checked);
                 if (!isChecked) {
