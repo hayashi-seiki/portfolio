@@ -214,39 +214,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 送信中のUI変更（ボタンのローディング表示＆二重送信防止）
+            // 送信中のUI変更
             const submitBtn = form.querySelector('.btn-submit');
             submitBtn.classList.add('is-loading');
-            submitBtn.disabled = true;
+            
+            // ボタンの無効化をわずかに遅らせる（即時無効化するとフォーム送信がキャンセルされるブラウザ対策）
+            setTimeout(() => {
+                submitBtn.disabled = true;
+            }, 100);
 
-            // フォームデータの取得とGoogleフォーム仕様への変換
-            const formData = new FormData(form);
-            const params = new URLSearchParams();
-
-            // FormDataの中身をURLSearchParamsに詰め直す（チェックボックスの複数選択にも対応）
-            for (const [key, value] of formData.entries()) {
-                params.append(key, value);
-            }
-
-            const actionUrl = form.getAttribute('action');
-
-            // fetch APIを使ってGoogle Formへバックグラウンド送信
-            fetch(actionUrl, {
-                method: 'POST',
-                body: params, // 詰め直したparamsを送信する
-                mode: 'no-cors' // Google Form送信時の必須設定
-            })
-            .then(() => {
-                // 送信成功後にサンクスページへ遷移
-                window.location.href = 'thanks.html';
-            })
-            .catch((error) => {
-                // 万が一の通信エラー時
-                console.error('送信エラー:', error);
-                alert('通信エラーが発生しました。時間をおいて再度お試しください。');
-                submitBtn.classList.remove('is-loading');
-                submitBtn.disabled = false;
-            });
+            // 隠しiframeに送信完了フラグを立てて、ブラウザの標準機能でフォーム送信を実行
+            submitted = true;
+            form.submit();
         });
     }
 });
