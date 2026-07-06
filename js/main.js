@@ -147,6 +147,7 @@ addFadeInOnIntersect([
 // profile-text内のpタグの下からフェードインアニメーション
 addFadeInOnIntersect(document.querySelector('.profile-text p'));
 
+
 /* --- Contact Form Validation & Submission --- */
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('contactForm');
@@ -193,12 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // ご相談項目（チェックボックス）の必須チェック
             const checkboxes = form.querySelectorAll('input[name="entry.1222402986"]');
-            const isChecked = Array.from(checkboxes).some(cb => cb.checked);
-            if (!isChecked && checkboxes.length > 0) {
-                setError(checkboxes[0]);
+            if (checkboxes.length > 0) {
+                const isChecked = Array.from(checkboxes).some(cb => cb.checked);
+                if (!isChecked) {
+                    setError(checkboxes[0]);
+                }
             }
 
-            // エラーがあれば最初の項目へスクロール
+            // エラーがあれば最初の項目へスクロールして処理を中断
             if (!isValid) {
                 const headerOffset = 100;
                 const elementPosition = firstErrorEl.getBoundingClientRect().top;
@@ -211,14 +214,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 送信処理とアニメーション
+            // 送信中のUI変更（ボタンのローディング表示＆二重送信防止）
             const submitBtn = form.querySelector('.btn-submit');
             submitBtn.classList.add('is-loading');
-            submitBtn.disabled = true; // 二重送信防止
+            submitBtn.disabled = true;
 
-            // Googleフォームの隠しiframeのフラグを立てて送信
-            submitted = true;
-            form.submit();
+            // フォームデータの取得とGoogleフォーム仕様への変換
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+
+            // FormDataの中身をURLSearchParamsに詰め直す（チェックボックスの複数選択にも対応）
+            for (const [key, value] of formData.entries()) {
+                params.append(key, value);
+            }
+
+            const actionUrl = form.getAttribute('action');
+
+            // fetch APIを使ってGoogle Formへバックグラウンド送信
+            fetch(actionUrl, {
+                method: 'POST',
+                body: params, // 詰め直したparamsを送信する
+                mode: 'no-cors' // Google Form送信時の必須設定
+            })
+            .then(() => {
+                // 送信成功後にサンクスページへ遷移
+                window.location.href = 'thanks.html';
+            })
+            .catch((error) => {
+                // 万が一の通信エラー時
+                console.error('送信エラー:', error);
+                alert('通信エラーが発生しました。時間をおいて再度お試しください。');
+                submitBtn.classList.remove('is-loading');
+                submitBtn.disabled = false;
+            });
         });
     }
 });
