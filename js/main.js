@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // ご相談項目（チェックボックス）の必須チェック
+            // 新しいご相談項目（チェックボックス: entry.784091772）の必須チェック
             const checkboxes = form.querySelectorAll('input[name="entry.784091772"]');
             if (checkboxes.length > 0) {
                 const isChecked = Array.from(checkboxes).some(cb => cb.checked);
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 送信中のUI変更
+            // 送信中のUI変更（ボタンのローディング表示＆二重送信防止）
             const submitBtn = form.querySelector('.btn-submit');
             submitBtn.classList.add('is-loading');
             
