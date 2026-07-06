@@ -41,7 +41,12 @@
                 </div>
 
                 <div class="form-wrapper">
-                    <form id="contactForm" action="https://docs.google.com/forms/d/e/1FAIpQLSc-fAqyDMhgpFV2hson9fHtiZNu2y4cmRQ-InMlVDjYoxJThw/formResponse" method="POST" novalidate>
+                    <script>
+                        var submitted = false;
+                    </script>
+                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){window.location.href='thanks.html';}"></iframe>
+                    
+                    <form id="contactForm" action="https://docs.google.com/forms/d/e/1FAIpQLSc-fAqyDMhgpFV2hson9fHtiZNu2y4cmRQ-InMlVDjYoxJThw/formResponse" method="POST" target="hidden_iframe" novalidate>
                         
                         <div class="form-group">
                             <label class="form-label" for="entry-name">お名前 <span class="required">必須</span></label>
